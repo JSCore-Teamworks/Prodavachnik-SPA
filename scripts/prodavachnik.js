@@ -192,6 +192,7 @@ function startApp() {
         showHomeView();
         showInfo('Logout successful.');
     }
+    
 
     // advertisement/all
     function listAdverts() {
@@ -299,7 +300,7 @@ function startApp() {
         }
     }
 
-    
+
 
 // advertisement/create
     function createAdvert() {
