@@ -63,6 +63,41 @@
             };
         }
     });
+    // Create advert
+$.mockjax(function (requestSettings) {
+    if (requestSettings.url === "https://mock.api.com/appdata/kid_rk/adverts" &&
+        requestSettings.method === "POST") {
+        return {
+            response: function (origSettings) {
+                if (requestSettings.headers["Authorization"].includes("Kinvey mock_token")) {
+                    let data = requestSettings.data;
+                    let lastId = 0;
+                    if (adverts.length > 0) {
+                        lastId = adverts.map(a => a._id).sort((a, b) => b - a)[0];
+                    }
+                    let token = requestSettings.headers["Authorization"].replace("Kinvey ", "");
+                    let creator = users.filter(u => u._kmd.authtoken === token)[0]._id;
+                    let advert = {
+                        _id: ++lastId,
+                        _acl: {
+                            creator: creator
+                        },
+                        title: data.title,
+                        description: data.description,
+                        publisher: data.publisher,
+                        datePublished: data.datePublished,
+                        price: data.price
+                    };
+                    adverts.push(advert);
+                    this.responseText = advert;
+                } else {
+                    this.status = 403;
+                    this.responseText = "You are not authorized";
+                }
+            }
+        };
+    
+
 
     // User create
     $.mockjax(function (requestSettings) {
@@ -111,6 +146,42 @@
             };
         }
     });
+    // Create advert
+$.mockjax(function (requestSettings) {
+    if (requestSettings.url === "https://mock.api.com/appdata/kid_rk/adverts" &&
+        requestSettings.method === "POST") {
+        return {
+            response: function (origSettings) {
+                if (requestSettings.headers["Authorization"].includes("Kinvey mock_token")) {
+                    let data = requestSettings.data;
+                    let lastId = 0;
+                    if (adverts.length > 0) {
+                        lastId = adverts.map(a => a._id).sort((a, b) => b - a)[0];
+                    }
+                    let token = requestSettings.headers["Authorization"].replace("Kinvey ", "");
+                    let creator = users.filter(u => u._kmd.authtoken === token)[0]._id;
+                    let advert = {
+                        _id: ++lastId,
+                        _acl: {
+                            creator: creator
+                        },
+                        title: data.title,
+                        description: data.description,
+                        publisher: data.publisher,
+                        datePublished: data.datePublished,
+                        price: data.price
+                    };
+                    adverts.push(advert);
+                    this.responseText = advert;
+                } else {
+                    this.status = 403;
+                    this.responseText = "You are not authorized";
+                }
+            }
+        };
+    }
+});
+
         // Load single advert
     $.mockjax(function (requestSettings) {
         if (requestSettings.url.match(/https:\/\/mock\.api\.com\/appdata\/kid_rk\/adverts\/(.+)/) &&
@@ -130,5 +201,5 @@
         }
     });
 
-})();
+
 
